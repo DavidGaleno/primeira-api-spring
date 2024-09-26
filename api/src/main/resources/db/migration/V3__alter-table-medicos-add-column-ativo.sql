@@ -1,0 +1,1 @@
+alter table medicos add column ativo BOOLEAN not null default true;

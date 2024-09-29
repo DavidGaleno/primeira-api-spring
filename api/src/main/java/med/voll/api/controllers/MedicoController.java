@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,7 +39,7 @@ public class MedicoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemMedicoDTO>> DadosListagemMedicoDTO(@PageableDefault(size = 5, page = 0, direction = Sort.Direction.ASC) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemMedicoDTO>> DadosListagemMedicoDTO(Pageable paginacao) {
         return ResponseEntity.ok(repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new));
     }
 

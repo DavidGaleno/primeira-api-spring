@@ -1,7 +1,7 @@
 package med.voll.api.controllers;
 
 import jakarta.validation.Valid;
-import med.voll.api.infra.security.TokenService;
+import med.voll.api.services.TokenService;
 import med.voll.api.persistence.dto.DadosAutenticadaoDTO;
 import med.voll.api.persistence.dto.DadosTokenJWT;
 import med.voll.api.persistence.models.Usuario;

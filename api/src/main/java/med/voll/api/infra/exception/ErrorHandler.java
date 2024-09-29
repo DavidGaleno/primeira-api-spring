@@ -1,11 +1,13 @@
 package med.voll.api.infra.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,7 +20,6 @@ public class ErrorHandler {
         return ResponseEntity.notFound().build();
 
     }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<SumarioErro>> tratarErro400(MethodArgumentNotValidException e) {
         List<FieldError> erros = e.getFieldErrors();

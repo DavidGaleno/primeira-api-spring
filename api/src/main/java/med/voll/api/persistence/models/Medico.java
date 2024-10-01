@@ -2,8 +2,8 @@ package med.voll.api.persistence.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import med.voll.api.persistence.dto.DadosAtualizacaoMedicoDTO;
-import med.voll.api.persistence.dto.DadosCadastroMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosAtualizacaoMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosCadastroMedicoDTO;
 import med.voll.api.persistence.enums.Especialidade;
 
 @Table(name = "medicos")
@@ -20,7 +20,7 @@ public class Medico {
     private String email;
     private String telefone;
     private String crm;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
     @Embedded
     private Endereco endereco;

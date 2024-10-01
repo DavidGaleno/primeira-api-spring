@@ -40,7 +40,6 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(req -> {
                     req.requestMatchers("/login").permitAll();
                     req.requestMatchers(HttpMethod.PATCH,"/medicos").hasRole("USER");
-                    req.requestMatchers(HttpMethod.PATCH,"/medicos/*").hasRole("ADMIN");
                     req.anyRequest().authenticated();
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling(exhd -> {
                     exhd.accessDeniedHandler(customAccessDeniedHandler());
@@ -73,20 +72,6 @@ public class SecurityConfigurations {
             }
         };
     }
-
-
-
-//    @Bean
-//    public Http403ForbiddenEntryPoint customAuthenticationEntryPoint() {
-//        return new Http403ForbiddenEntryPoint() {
-//            @Override
-//            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
-//                response.setContentType("application/json");
-//                response.getWriter().write("{\"error\": \"Token expired or invalid\"}");
-//            }
-//        };
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

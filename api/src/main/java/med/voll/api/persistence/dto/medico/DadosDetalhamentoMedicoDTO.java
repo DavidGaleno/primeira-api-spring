@@ -1,4 +1,4 @@
-package med.voll.api.persistence.dto;
+package med.voll.api.persistence.dto.medico;
 
 
 import med.voll.api.persistence.enums.Especialidade;

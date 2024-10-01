@@ -2,19 +2,16 @@ package med.voll.api.controllers;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.persistence.dto.DadosAtualizacaoMedicoDTO;
-import med.voll.api.persistence.dto.DadosCadastroMedicoDTO;
-import med.voll.api.persistence.dto.DadosDetalhamentoMedicoDTO;
-import med.voll.api.persistence.dto.DadosListagemMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosAtualizacaoMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosCadastroMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosDetalhamentoMedicoDTO;
+import med.voll.api.persistence.dto.medico.DadosListagemMedicoDTO;
 import med.voll.api.persistence.models.Medico;
 import med.voll.api.persistence.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,12 +36,12 @@ public class MedicoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemMedicoDTO>> DadosListagemMedicoDTO(Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemMedicoDTO>> listarMedicos(Pageable paginacao) {
         return ResponseEntity.ok(repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DadosDetalhamentoMedicoDTO> DadosListagemMedicoDTO(@PathVariable Long id) {
+    public ResponseEntity<DadosDetalhamentoMedicoDTO> detalharMedico(@PathVariable Long id) {
         Medico medico = repository.getReferenceById(id);
         DadosDetalhamentoMedicoDTO dadosDetalhamentoMedicoDTO = new DadosDetalhamentoMedicoDTO(medico);
         return ResponseEntity.ok(dadosDetalhamentoMedicoDTO);
@@ -65,8 +62,6 @@ public class MedicoController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-//        Medico medico = repository.getReferenceById(id);
-//        repository.delete(medico);
         Medico medico = repository.getReferenceById(id);
         medico.deletar();
         return ResponseEntity.noContent().build();

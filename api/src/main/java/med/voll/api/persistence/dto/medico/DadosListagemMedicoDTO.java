@@ -1,9 +1,7 @@
-package med.voll.api.persistence.dto;
+package med.voll.api.persistence.dto.medico;
 
 import med.voll.api.persistence.enums.Especialidade;
 import med.voll.api.persistence.models.Medico;
-
-import java.util.List;
 
 public record DadosListagemMedicoDTO(Long id, String nome, String email, String crm, Especialidade especialidade) {
     public DadosListagemMedicoDTO(Medico medico) {

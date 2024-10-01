@@ -1,10 +1,11 @@
-package med.voll.api.persistence.dto;
+package med.voll.api.persistence.dto.medico;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import med.voll.api.persistence.dto.DadosEnderecoDto;
 import med.voll.api.persistence.enums.Especialidade;
 
 public record DadosCadastroMedicoDTO(@NotBlank(message = "{nome.obrigatorio}") String nome, @NotBlank @Email String email,

@@ -1,4 +1,4 @@
-package med.voll.api.persistence.validations;
+package med.voll.api.persistence.validations.appointmentSchedule;
 
 import med.voll.api.exceptions.ValidacaoException;
 import med.voll.api.persistence.dto.consulta.DadosAgendamentoConsultaDto;

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.persistence.dto.consulta.DadosAgendamentoConsultaDto;
+import med.voll.api.persistence.dto.consulta.DadosCancelamentoConsultaDTO;
+import med.voll.api.persistence.enums.MotivoCancelamentoConsulta;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +30,17 @@ public class Consulta {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
+    private Boolean ativa;
+
+    @Enumerated(EnumType.STRING)
+    private MotivoCancelamentoConsulta motivoCancelamento;
+
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
 
+
+    public void cancelar(DadosCancelamentoConsultaDTO requisicao) {
+        ativa = false;
+        this.motivoCancelamento = requisicao.motivoCancelamento();
+    }
 }

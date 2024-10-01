@@ -2,14 +2,13 @@ package med.voll.api.services;
 
 import med.voll.api.exceptions.ValidacaoException;
 import med.voll.api.persistence.dto.consulta.DadosAgendamentoConsultaDto;
-import med.voll.api.persistence.enums.Especialidade;
 import med.voll.api.persistence.models.Consulta;
 import med.voll.api.persistence.models.Medico;
 import med.voll.api.persistence.models.Paciente;
 import med.voll.api.persistence.repository.ConsultaRepository;
 import med.voll.api.persistence.repository.MedicoRepository;
 import med.voll.api.persistence.repository.PacienteRepository;
-import med.voll.api.persistence.validations.AppointmentScheduleValidator;
+import med.voll.api.persistence.validations.appointmentSchedule.AppointmentScheduleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class AgendaConsulta {
         if (medico == null) {
             throw new ValidacaoException("No Doctor available at this date");
         }
-        Consulta consulta = new Consulta(null, medico, paciente, dados.data(), dados.data().plusHours(1));
+        Consulta consulta = new Consulta(null, medico, paciente, true, null, dados.data(), dados.data().plusHours(1));
         consultaRepository.save(consulta);
         return new DadosAgendamentoConsultaDto(consulta);
 
@@ -57,7 +56,7 @@ public class AgendaConsulta {
         if (dados.especialidade() == null) {
             throw new ValidacaoException("Especialidade obrigatoria quando medico nao for Escolhido");
         }
-        return medicoRepository.chooseRandomDoctor(dados.especialidade(), dados.data(),intervaloAntesDoInicio);
+        return medicoRepository.chooseRandomDoctor(dados.especialidade(), dados.data(), intervaloAntesDoInicio);
 
 
     }

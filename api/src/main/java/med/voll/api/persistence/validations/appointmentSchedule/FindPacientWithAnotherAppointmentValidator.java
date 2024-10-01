@@ -1,4 +1,4 @@
-package med.voll.api.persistence.validations;
+package med.voll.api.persistence.validations.appointmentSchedule;
 
 import med.voll.api.exceptions.ValidacaoException;
 import med.voll.api.persistence.dto.consulta.DadosAgendamentoConsultaDto;
@@ -9,17 +9,18 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class DoctorAlreadyHadAnAppointmentWithThePacient implements AppointmentScheduleValidator {
+public class FindPacientWithAnotherAppointmentValidator implements AppointmentScheduleValidator {
+
     @Autowired
     private ConsultaRepository consultaRepository;
 
     public void validar(DadosAgendamentoConsultaDto dados) {
         LocalDateTime inicioDaConsulta = dados.data();
-        var possuiOutraConsulta = consultaRepository.findIfDoctorAlreadyHadAnAppointmentWithThePacient(dados.idMedico(),dados.idPaciente(),dados.data());
-        System.out.println("Quero saber se ta passando aqui");
-        System.out.println("O doctor e o " + dados.idMedico());;
+        LocalDateTime intervaloAntesInicio = inicioDaConsulta.minusHours(1);
+        System.out.println(inicioDaConsulta);
+        var possuiOutraConsulta = consultaRepository.findAppointmentsWithDateTimeForPacient(dados.idPaciente(), inicioDaConsulta,intervaloAntesInicio);
         if (possuiOutraConsulta > 0) {
-            throw new ValidacaoException("The doctor already had an appointment with this pacient today");
+            throw new ValidacaoException("There is a conflict with other appointment");
         }
         System.out.println("pacienteMarcado");
     }

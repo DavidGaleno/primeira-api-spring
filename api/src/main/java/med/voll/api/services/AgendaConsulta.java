@@ -2,6 +2,7 @@ package med.voll.api.services;
 
 import med.voll.api.exceptions.ValidacaoException;
 import med.voll.api.persistence.dto.consulta.DadosAgendamentoConsultaDto;
+import med.voll.api.persistence.enums.Especialidade;
 import med.voll.api.persistence.models.Consulta;
 import med.voll.api.persistence.models.Medico;
 import med.voll.api.persistence.models.Paciente;
@@ -49,14 +50,14 @@ public class AgendaConsulta {
     private Medico escolherMedico(DadosAgendamentoConsultaDto dados) {
         var dataInicio = dados.data();
         var intervaloAntesDoInicio = dataInicio.minusHours(1);
-        System.out.println("Especialidade vai ser " + dados.especialidade());
+        System.out.println("Especialidade vai ser " + Especialidade.valueOf(String.valueOf(Especialidade.ORTOPEDIA)));
         if (dados.idMedico() != null) {
             return medicoRepository.getReferenceById(dados.idMedico());
         }
         if (dados.especialidade() == null) {
             throw new ValidacaoException("Especialidade obrigatoria quando medico nao for Escolhido");
         }
-        return medicoRepository.chooseRandomDoctor(dados.especialidade(), dados.data(), intervaloAntesDoInicio);
+        return medicoRepository.chooseRandomDoctor(String.valueOf(Especialidade.ORTOPEDIA), dados.data(), intervaloAntesDoInicio);
 
 
     }

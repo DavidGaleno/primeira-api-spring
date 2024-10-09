@@ -1,5 +1,10 @@
 package med.voll.api.controllers;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.persistence.dto.medico.DadosAtualizacaoMedicoDTO;
@@ -20,6 +25,9 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("medicos")
+@SecurityRequirement(name = "bearer-key")
+@OpenAPIDefinition(
+        tags = {@Tag(name = "Medicos", description = "Operations related to Medicos management")})
 public class MedicoController {
 
     @Autowired
@@ -27,6 +35,7 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
+    @Operation(description = "Cadastra Medicos",tags = "Medicos")
     public ResponseEntity<DadosDetalhamentoMedicoDTO> cadastrar(@RequestBody @Valid DadosCadastroMedicoDTO dadosCadastroMedicoDTO, UriComponentsBuilder uriComponentsBuilder) {
         Medico medico = new Medico(dadosCadastroMedicoDTO);
         repository.save(medico);
@@ -35,11 +44,13 @@ public class MedicoController {
         return ResponseEntity.created(uri).body(dadosDetalhamentoMedicoDTO);
     }
 
+    @Operation(description = "Busca Medicos",tags = "Medicos")
     @GetMapping
     public ResponseEntity<Page<DadosListagemMedicoDTO>> listarMedicos(Pageable paginacao) {
         return ResponseEntity.ok(repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new));
     }
 
+    @Operation(description = "Busca Medico por Id",tags = "Medicos")
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoMedicoDTO> detalharMedico(@PathVariable Long id) {
         Medico medico = repository.getReferenceById(id);
@@ -50,6 +61,7 @@ public class MedicoController {
     }
 
     @PatchMapping("/{id}")
+    @Operation(description = "Atualiza Medico",tags = "Medicos")
     @Transactional
     public ResponseEntity<DadosDetalhamentoMedicoDTO> atualizar(@RequestBody @Valid DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO, @PathVariable("id") Long id) {
         Medico medico = repository.getReferenceById(id);
@@ -60,6 +72,7 @@ public class MedicoController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(description = "Exclui Medico", summary = "Exclui Medico",tags = "Medicos")
     @Transactional
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         Medico medico = repository.getReferenceById(id);

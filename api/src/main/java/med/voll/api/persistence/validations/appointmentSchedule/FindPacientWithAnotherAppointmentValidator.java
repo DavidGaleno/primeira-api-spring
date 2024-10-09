@@ -19,6 +19,7 @@ public class FindPacientWithAnotherAppointmentValidator implements AppointmentSc
         LocalDateTime intervaloAntesInicio = inicioDaConsulta.minusHours(1);
         System.out.println(inicioDaConsulta);
         var possuiOutraConsulta = consultaRepository.findAppointmentsWithDateTimeForPacient(dados.idPaciente(), inicioDaConsulta,intervaloAntesInicio);
+        System.out.println("outras consultas " +possuiOutraConsulta );
         if (possuiOutraConsulta > 0) {
             throw new ValidacaoException("There is a conflict with other appointment");
         }
